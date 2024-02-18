@@ -1,2 +1,2 @@
-import"./assets/modulepreload-polyfill-3cfb730f.js";/* empty css                      */console.log("SNACKBAR");
+import"./assets/modulepreload-polyfill-3cfb730f.js";/* empty css                      */import{i as o}from"./assets/vendor-77e16229.js";const r=document.querySelector("form");r.addEventListener("submit",m=>{m.preventDefault();const e=Number(document.querySelector('input[name="delay"]').value),s=document.querySelector('input[name="state"]:checked').value;new Promise((t,i)=>{s==="fulfilled"?setTimeout(()=>{t(e)},e):s==="rejected"&&i(e)}).then(t=>{o.show({message:`✅ Fulfilled promise in ${e}ms`})}).catch(t=>{o.show({message:`❌ Rejected promise in ${e}ms`})})});
 //# sourceMappingURL=commonHelpers2.js.map
