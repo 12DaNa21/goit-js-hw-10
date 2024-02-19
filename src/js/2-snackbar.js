@@ -5,33 +5,27 @@ const form = document.querySelector('form');
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
-  
+
   const delay = Number(document.querySelector('input[name="delay"]').value);
   const status = document.querySelector('input[name="state"]:checked').value;
 
   const promise = new Promise((resolve, reject) => {
-    if (status === 'fulfilled') {
-      setTimeout(() => {
+    setTimeout(() => {
+      if (status === 'fulfilled') {
         resolve(delay);
-      }, delay);
-    } else if (status === 'rejected') {
-      reject(delay);
-    }
+      } else if (status === 'rejected') {
+        reject(delay);
+      }
+    }, delay);
   });
 
-  promise.then((value) => {
+  promise.then(() => {
     iziToast.show({
-      
       message: `✅ Fulfilled promise in ${delay}ms`
-  });
-
-
-
-    
-  }).catch((value) => {
+    });
+  }).catch(() => {
     iziToast.show({
       message: `❌ Rejected promise in ${delay}ms`
     });
   });
-  
 });

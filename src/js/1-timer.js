@@ -1,7 +1,8 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 
-document.body.style.backgroundColor = '#ece5da';
 const TIMER_DELAY = 1000;
 let intervalId = null;
 let selectedDate = null;
@@ -11,8 +12,6 @@ const calendar = document.querySelector('#datetime-picker');
 const startBtn = document.querySelector('[data-start]');
 startBtn.disabled = true;
 
-
-
 flatpickr(calendar, {
   enableTime: true,
   time_24hr: true,
@@ -20,9 +19,11 @@ flatpickr(calendar, {
   minuteIncrement: 1,
   onClose(selectedDates) {
     if (selectedDates[0].getTime() < Date.now()) {
-      window.alert("Please choose a date in the future")
-      
-    } 
+      iziToast.show({
+        message: `❌ Please choose a date in the future`
+      });
+      startBtn.disabled = true; // Disable the button for past dates
+    } else {
       startBtn.disabled = false;
       const setTimer = () => {
         selectedDate = selectedDates[0].getTime();
@@ -30,7 +31,7 @@ flatpickr(calendar, {
       };
 
       startBtn.addEventListener('click', setTimer);
-    
+    }
   },
 });
 
@@ -45,9 +46,9 @@ const timer = {
 
       if (delta <= 0) {
         this.stop();
-        
         return;
       }
+
       const { days, hours, minutes, seconds } = this.convertMs(delta);
       this.rootSelector.querySelector('[data-days]').textContent =
         this.addLeadingZero(days);
@@ -86,6 +87,6 @@ const timer = {
   },
 
   addLeadingZero(value) {
-    return String(value).padStart(2, 0);
+    return String(value).padStart(2, '0');
   },
 };
